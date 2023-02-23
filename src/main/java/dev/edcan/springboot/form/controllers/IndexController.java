@@ -26,7 +26,6 @@ public class IndexController {
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(usuarioValidator);
-        
     }
 
     @GetMapping("/form")
@@ -47,7 +46,7 @@ public class IndexController {
         //Usuario usuario = new Usuario(username, password, email);
 
         model.addAttribute("titulo", "Resultado");
-
+ 
         // usuarioValidator.validate(usuario, result);
 
         if(result.hasErrors()) {
