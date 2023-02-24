@@ -1,18 +1,26 @@
 package dev.edcan.springboot.form.controllers;
 
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import dev.edcan.springboot.form.editors.NombreMayusculaEditor;
 import dev.edcan.springboot.form.models.domain.Usuario;
 import dev.edcan.springboot.form.validation.UsuarioValidator;
 
@@ -26,6 +34,10 @@ public class IndexController {
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(usuarioValidator);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+        binder.registerCustomEditor(String.class, "nombre",new NombreMayusculaEditor());
     }
 
     @GetMapping("/form")
@@ -56,6 +68,11 @@ public class IndexController {
         model.addAttribute("usuario", usuario);
         status.setComplete();
         return "resultado";
+    }
+
+    @ModelAttribute("paises")
+    public List<String> paises() {
+        return Arrays.asList("México", "Argentina", "Chile", "España");
     }
 
     

@@ -1,20 +1,32 @@
 package dev.edcan.springboot.form.models.domain;
 
+import java.util.Date;
+
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import dev.edcan.springboot.form.validation.IdentificadorRegex;
+import dev.edcan.springboot.form.validation.Requerido;
 
 public class Usuario {
 
 
-    // @Pattern(regexp = "[0-9]{2}[.][\\d]{3}[.][\\d]{3}[-][A-Z]{1}")
+    @IdentificadorRegex // Validación por anotaciones
     private String identificador;
 
-    // @NotEmpty(message="El nombre no puede ser vacío")
-    private String nombre;
+    private String nombre; // Validación por clase que implementa Validator
 
-    @NotEmpty
+    // @NotEmpty
+    @Requerido // Validación por anotaciones
     private String apellido;
 
     @NotBlank
@@ -24,9 +36,49 @@ public class Usuario {
     @NotEmpty
     private String password;
     
-    @NotEmpty
+    @Requerido
     @Email
     private String email;
+
+    @NotNull
+    @Min(5)
+    @Max(5000)
+    private Integer cuenta;
+
+    @NotNull
+    //@DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Past
+    private Date fechaNacimiento;
+
+    public Date getFechaNacimiento() {
+        return this.fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public String pais;
+    
+
+    public String getPais() {
+        return this.pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
+    }
+
+
+
+
+    public Integer getCuenta() {
+        return this.cuenta;
+    }
+
+    public void setCuenta(Integer cuenta) {
+        this.cuenta = cuenta;
+    }
 
     
     public Usuario() {

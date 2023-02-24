@@ -1,4 +1,5 @@
 package dev.edcan.springboot.form.validation;
+
 import org.springframework.stereotype.Component;
 import org.springframework.validation.*;
 
@@ -18,10 +19,9 @@ public class UsuarioValidator implements Validator {
     public void validate(Object target, Errors errors) {
         Usuario usuario = (Usuario)target;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nombre", "NotEmpty.usuario.nombre");
-
-        if(!usuario.getIdentificador().matches("[0-9]{2}[.][\\d]{3}[.][\\d]{3}[-][A-Z]{1}")) {
+        /* if(!usuario.getIdentificador().matches("[0-9]{2}[.][\\d]{3}[.][\\d]{3}[-][A-Z]{1}")) {
             errors.rejectValue("identificador", "pattern.usuario.identificador");
-        }
+        } */
     }
 
 }
