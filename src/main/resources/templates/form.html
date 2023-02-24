@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
     <head>
         <title>asu</title>
     </head>
@@ -73,12 +73,20 @@
 
             <div>
                 <label for="paises">Paises</label>
+<!--                <div>-->
+<!--                    <select id="paises" th:field="*{pais}">-->
+<!--                        <option th:each="pais: ${paisesMap}" th:text="${pais.value}" th:value="${pais.key}">-->
+<!--                        </option>-->
+<!--                    </select>-->
+<!--                </div>-->
+
                 <div>
-                    <select id="paises" th:field="*{pais}">
-                        <option th:each="pais: ${paises}" th:text="${pais}" th:value="${pais}"></option>
+                    <select id="paisesMap" th:field="*{pais}">
+                        <option th:each="pais: ${paisesMap.entrySet()}" th:text="${pais.value}" th:value="${pais.key}">
+                        </option>
                     </select>
                 </div>
-                <div th:if="${#fields.hasErrors('fechaNacimiento')}" th:errors="*{fechaNacimiento}"></div>
+
             </div>
             <div>
                 <input type="submit" value="Enviar datos">

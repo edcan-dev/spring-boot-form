@@ -1,9 +1,7 @@
 package dev.edcan.springboot.form.controllers;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import javax.validation.Valid;
 
@@ -48,7 +46,7 @@ public class IndexController {
         usuarioVacio.setApellido("Cano");
         
         // usuarioVacio.setIdentificador("CARE201920732");
-        model.addAttribute("titulo", "Formulario con Spring");
+        model.addAttribute("titulo", "Formulario con Spring y Thymeleaf");
         model.addAttribute("usuario", usuarioVacio);
         return "form";
     }
@@ -62,7 +60,6 @@ public class IndexController {
         // usuarioValidator.validate(usuario, result);
 
         if(result.hasErrors()) {
-
             return "form";
         }
         model.addAttribute("usuario", usuario);
@@ -73,6 +70,19 @@ public class IndexController {
     @ModelAttribute("paises")
     public List<String> paises() {
         return Arrays.asList("México", "Argentina", "Chile", "España");
+    }
+
+    @ModelAttribute("paisesMap")
+    public Map<String, String> paisesMap() {
+        Map<String, String> paises = new HashMap<String, String>();
+        paises.put("ES","España");
+        paises.put("AR","Argentina");
+        paises.put("MX","México");
+        paises.put("CL","Chile");
+        paises.put("EU","Estados Unidos");
+        paises.put("UK","Reino Unido");
+        paises.put("RS","Rusia");
+        return paises;
     }
 
     

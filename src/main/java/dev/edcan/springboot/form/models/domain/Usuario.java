@@ -12,8 +12,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import dev.edcan.springboot.form.validation.IdentificadorRegex;
 import dev.edcan.springboot.form.validation.Requerido;
 
@@ -40,7 +38,7 @@ public class Usuario {
     @Email
     private String email;
 
-    @NotNull
+    @NotNull      
     @Min(5)
     @Max(5000)
     private Integer cuenta;

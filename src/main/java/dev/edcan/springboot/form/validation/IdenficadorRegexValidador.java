@@ -4,7 +4,6 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class IdenficadorRegexValidador implements ConstraintValidator<IdentificadorRegex, String>{
-
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
 
