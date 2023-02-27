@@ -72,20 +72,20 @@
             </div>
 
             <div>
-                <label for="paises">Paises</label>
 <!--                <div>-->
 <!--                    <select id="paises" th:field="*{pais}">-->
 <!--                        <option th:each="pais: ${paisesMap}" th:text="${pais.value}" th:value="${pais.key}">-->
 <!--                        </option>-->
 <!--                    </select>-->
 <!--                </div>-->
-
+                <label for="pais.codigo">Paises</label>
                 <div>
-                    <select id="paisesMap" th:field="*{pais}">
-                        <option th:each="pais: ${paisesMap.entrySet()}" th:text="${pais.value}" th:value="${pais.key}">
+                    <select id="pais.codigo" th:field="*{pais}">
+                        <option th:each="pais: ${listaPaises}" th:text="${pais.nombre}" th:value="${pais.id}">
                         </option>
                     </select>
                 </div>
+                <div th:if="${#fields.hasErrors('pais')}" th:errors="*{pais}"></div>
 
             </div>
             <div>

@@ -2,6 +2,7 @@ package dev.edcan.springboot.form.models.domain;
 
 import java.util.Date;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.Max;
@@ -47,6 +48,8 @@ public class Usuario {
     //@DateTimeFormat(pattern = "yyyy-MM-dd")
     @Past
     private Date fechaNacimiento;
+    @NotNull
+    public Pais pais;
 
     public Date getFechaNacimiento() {
         return this.fechaNacimiento;
@@ -56,14 +59,13 @@ public class Usuario {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public String pais;
-    
 
-    public String getPais() {
+
+    public Pais getPais() {
         return this.pais;
     }
 
-    public void setPais(String pais) {
+    public void setPais(Pais pais) {
         this.pais = pais;
     }
 

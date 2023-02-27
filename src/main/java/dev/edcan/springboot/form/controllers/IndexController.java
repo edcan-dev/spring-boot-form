@@ -5,6 +5,9 @@ import java.util.*;
 
 import javax.validation.Valid;
 
+import dev.edcan.springboot.form.editors.PaisPropertyEditor;
+import dev.edcan.springboot.form.models.domain.Pais;
+import dev.edcan.springboot.form.services.PaisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -29,6 +32,12 @@ public class IndexController {
     @Autowired
     private UsuarioValidator usuarioValidator;
 
+    @Autowired
+    private PaisService paisService;
+
+    @Autowired
+    private PaisPropertyEditor paisEditor;
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(usuarioValidator);
@@ -36,6 +45,7 @@ public class IndexController {
         dateFormat.setLenient(false);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
         binder.registerCustomEditor(String.class, "nombre",new NombreMayusculaEditor());
+        binder.registerCustomEditor(Pais.class, "pais", paisEditor);
     }
 
     @GetMapping("/form")
@@ -58,7 +68,7 @@ public class IndexController {
         model.addAttribute("titulo", "Resultado");
  
         // usuarioValidator.validate(usuario, result);
-
+        //System.out.println(result.getAllErrors());
         if(result.hasErrors()) {
             return "form";
         }
@@ -67,9 +77,14 @@ public class IndexController {
         return "resultado";
     }
 
-    @ModelAttribute("paises")
-    public List<String> paises() {
-        return Arrays.asList("México", "Argentina", "Chile", "España");
+    @ModelAttribute("listaPaises")
+    public List<Pais> listaPaises() {
+        return Arrays.asList(
+                new Pais(1,"MX","México"),
+                new Pais(2,"AR","Argentina"),
+                new Pais(3,"CL","Chile"),
+                new Pais(4,"ES","España"),
+                new Pais(5,"RS","Rusia"));
     }
 
     @ModelAttribute("paisesMap")
