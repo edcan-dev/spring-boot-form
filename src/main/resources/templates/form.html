@@ -7,6 +7,21 @@
     <body>
         <h1 th:text="${titulo}"></h1>
         <form action="/form" method="post" th:object="${usuario}">
+
+             <div>
+                <label for="habilitar">Habilitar</label>
+                <div>
+                    <input type="checkbox" id="habilitar" th:field="*{habilitar}">
+                </div>
+            </div>
+            <div>
+                <label>Género</label>
+                <div th:each="genero: ${generos}">
+                    <input type="radio" th:field="*{genero}" th:value="${genero}">
+                    <label th:for="${#ids.prev('genero')}" th:text="${genero}"></label>
+                </div>
+                <div th:if="${#fields.hasErrors('genero')}" th:errors="*{genero}"></div>
+            </div>
             <div>
                 <label for="identificador">identificador</label>
                 <div>
@@ -14,7 +29,7 @@
                 </div>
                 <div th:if="${#fields.hasErrors('identificador')}" th:errors="*{identificador}"></div>
             </div>
-            
+
             <div>
                 <label for="nombre">Nombre</label>
                 <div>
@@ -86,10 +101,31 @@
                     </select>
                 </div>
                 <div th:if="${#fields.hasErrors('pais')}" th:errors="*{pais}"></div>
+            </div>
 
+            <!--<div>
+
+                <label>Roles</label>
+                <div th:each="role: ${listaRolesString}">
+                    <input type="checkbox" th:field="*{roles}" th:value="${role}">
+                    <label th:for="${#ids.prev('roles')}" th:text="${role}"></label>
+                </div>
+            </div>
+-->
+            <div>
+
+                <label>Roles</label>
+                <div th:each="role: ${listaRoles}">
+                    <input type="checkbox" th:field="*{roles}" th:value="${role.id}">
+                    <label th:for="${#ids.prev('roles')}" th:text="${role.nombre}"></label>
+                </div>
             </div>
             <div>
                 <input type="submit" value="Enviar datos">
+            </div>
+
+            <div>
+                <input type="hidden" th:field="*{valorSecreto}"></input>
             </div>
         </form>
     </body>

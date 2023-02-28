@@ -6,8 +6,12 @@ import java.util.*;
 import javax.validation.Valid;
 
 import dev.edcan.springboot.form.editors.PaisPropertyEditor;
+import dev.edcan.springboot.form.editors.RolesEditor;
 import dev.edcan.springboot.form.models.domain.Pais;
+import dev.edcan.springboot.form.models.domain.Role;
 import dev.edcan.springboot.form.services.PaisService;
+import dev.edcan.springboot.form.services.RoleService;
+import jdk.jfr.MetadataDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -36,7 +40,13 @@ public class IndexController {
     private PaisService paisService;
 
     @Autowired
+    private RoleService roleService;
+
+    @Autowired
     private PaisPropertyEditor paisEditor;
+
+    @Autowired
+    private RolesEditor rolesEditor;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -46,6 +56,7 @@ public class IndexController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
         binder.registerCustomEditor(String.class, "nombre",new NombreMayusculaEditor());
         binder.registerCustomEditor(Pais.class, "pais", paisEditor);
+        binder.registerCustomEditor(Role.class, "roles", rolesEditor);
     }
 
     @GetMapping("/form")
@@ -54,6 +65,8 @@ public class IndexController {
 
         usuarioVacio.setNombre("Edgar");
         usuarioVacio.setApellido("Cano");
+        usuarioVacio.setHabilitar(true);
+        usuarioVacio.setValorSecreto("Este es un valor secreto...");
         
         // usuarioVacio.setIdentificador("CARE201920732");
         model.addAttribute("titulo", "Formulario con Spring y Thymeleaf");
@@ -63,12 +76,9 @@ public class IndexController {
 
     @PostMapping("/form")
     public String postForm(@Valid Usuario usuario, BindingResult result, Model model, SessionStatus status) {
-        //Usuario usuario = new Usuario(username, password, email);
 
         model.addAttribute("titulo", "Resultado");
- 
-        // usuarioValidator.validate(usuario, result);
-        //System.out.println(result.getAllErrors());
+
         if(result.hasErrors()) {
             return "form";
         }
@@ -99,6 +109,37 @@ public class IndexController {
         paises.put("RS","Rusia");
         return paises;
     }
+
+    @ModelAttribute("listaRolesString")
+    public List <String> listaRolesString () {
+        List<String> roles = new ArrayList<>();
+        roles.add("ROLE_ADMIN");
+        roles.add("ROLE_USER");
+        roles.add("ROLE_MODERATOR");
+        return roles;
+    }
+    @ModelAttribute("listaRolesMap")
+    public Map <String, String> listaRolesMap () {
+        Map<String, String> roles = new HashMap<>();
+        roles.put("ROLE_ADMIN","Adinistrador");
+        roles.put("ROLE_USER","Usuario");
+        roles.put("ROLE_MODERATOR","Moderaror");
+        return roles;
+    }
+
+    @ModelAttribute("listaRoles")
+    public List<Role> listaRoles() {
+        return this.roleService.listar();
+    }
+
+    @ModelAttribute("generos")
+    public List<String> generos() {
+    return Arrays.asList("Hombre","Mujer");
+    }
+
+
+
+
 
     
 }
