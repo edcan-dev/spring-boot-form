@@ -2,29 +2,21 @@ package dev.edcan.springboot.form.controllers;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
-
 import javax.validation.Valid;
-
 import dev.edcan.springboot.form.editors.PaisPropertyEditor;
 import dev.edcan.springboot.form.editors.RolesEditor;
 import dev.edcan.springboot.form.models.domain.Pais;
 import dev.edcan.springboot.form.models.domain.Role;
 import dev.edcan.springboot.form.services.PaisService;
 import dev.edcan.springboot.form.services.RoleService;
-import jdk.jfr.MetadataDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
-
 import dev.edcan.springboot.form.editors.NombreMayusculaEditor;
 import dev.edcan.springboot.form.models.domain.Usuario;
 import dev.edcan.springboot.form.validation.UsuarioValidator;
@@ -67,7 +59,9 @@ public class IndexController {
         usuarioVacio.setApellido("Cano");
         usuarioVacio.setHabilitar(true);
         usuarioVacio.setValorSecreto("Este es un valor secreto...");
-        
+
+        usuarioVacio.setPais(new Pais(1,"MX","México"));
+        usuarioVacio.setRoles(Arrays.asList(new Role(1,"Administrador","ROLE_ADMIN")));
         // usuarioVacio.setIdentificador("CARE201920732");
         model.addAttribute("titulo", "Formulario con Spring y Thymeleaf");
         model.addAttribute("usuario", usuarioVacio);
@@ -75,17 +69,25 @@ public class IndexController {
     }
 
     @PostMapping("/form")
-    public String postForm(@Valid Usuario usuario, BindingResult result, Model model, SessionStatus status) {
-
-        model.addAttribute("titulo", "Resultado");
+    public String postForm(@Valid Usuario usuario, BindingResult result, Model model) {
 
         if(result.hasErrors()) {
+            model.addAttribute("titulo", "Resultado");
             return "form";
         }
-        model.addAttribute("usuario", usuario);
+        return "redirect:/ver";
+    }
+
+    @GetMapping("/ver")
+    public String ver(@SessionAttribute(name = "usuario", required = false) Usuario usuario, Model model, SessionStatus status) {
+        if(usuario == null) {
+            return "redirect:/form";
+        }
+        model.addAttribute("titulo", "Resultado");
         status.setComplete();
         return "resultado";
     }
+
 
     @ModelAttribute("listaPaises")
     public List<Pais> listaPaises() {

@@ -6,6 +6,12 @@ public class Role {
     private String nombre;
     private String role;
 
+    @Override
+    public boolean equals(Object obj) {
+        Role role = (Role)obj;
+        return this.id != null && this.id.equals(role.getId());
+    }
+
     public Role(Integer id, String nombre, String role) {
         this.id = id;
         this.nombre = nombre;
